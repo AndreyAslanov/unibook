@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "genre_horrors.pdf",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

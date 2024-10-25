@@ -1,0 +1,75 @@
+// MARK: - General
+
+// Onboarding VC
+
+"next" = "Next";
+"yourName" = "Your name";
+"yourPhoto" = "Your photo";
+"selectGenres" = "Select genres";
+
+// Profile VC
+
+"profile" = "Profile";
+"favoriteGenres" = "Favorite genres";
+"noData" = "No data";
+"shareApp" = "Share app";
+"usagePolicy" = "Usage Policy";
+"rateApp" = "Rate app";
+"settings" = "Settings";
+"back" = "Back";
+"save" = "Save";
+"delete" = "Delete";
+"cancel" = "Cancel";
+"name" = "Name";
+
+// Favourites VC
+
+"favourites" = "Favourites";
+"addBook" = "Add a book";
+"favoriteBooks" = "Favorite books";
+"genres" = "Genres";
+"addFavoriteBook" = "Add a favorite book";
+"downloadBook" = "Download the book to the app";
+"newFavoriteBook" = "New favorite book";
+"bookTitle" = "Book title";
+"author" = "Author";
+"genre" = "Genres";
+"feedback" = "Feedback";
+"proccess" = "Proccess";
+"rating" = "Rating";
+"remove" = "Remove";
+"deleteBook" = "Do you really want to delete the book?";
+"edit" = "Edit";
+
+// Statistics VC
+
+"statistics" = "Statistics";
+"booksYear" = "Number of books read per year";
+"pagesYear" = "Number of pages read per year";
+"lastYear" = "For the last year";
+"statReading" = "Reading frequency";
+"statTime" = "Amount of time";
+"statGenre" = "Favorite genre";
+"statAuthor" = "Favorite author";
+"readingStat" = "Reading frequency";
+"timeStat" = "Amount of time";
+"genreStat" = "Favorite genre";
+"authorStat" = "Favorite author";
+"favLanguage" = "Favorite language";
+
+// Books VC
+
+"books" = "Books";
+"lastMonth" = "For the last month";
+"numberBooks" = "Number of books per month";
+"numberPages" = "Number of pages read";
+"trackProgress" = "Track your progress";
+"close" = "Close";
+"reading" = "Reading";
+"read" = "Read";
+"note" = "Note";
+"beginning" = "Beginning";
+"half" = "Half";
+"finished" = "Finished";
+"aboutBook" = "About book";
+"book" = "Book";

@@ -1,0 +1,4 @@
+${PODS_ROOT}/Target Support Files/Pods-Unibook/Pods-Unibook-frameworks.sh
+${BUILT_PRODUCTS_DIR}/KeychainSwift/KeychainSwift.framework
+${BUILT_PRODUCTS_DIR}/R.swift/RswiftResources.framework
+${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework
