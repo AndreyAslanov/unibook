@@ -7,17 +7,17 @@ protocol GenreCellDelegate: AnyObject {
 
 final class GenreCell: UICollectionViewCell {
     static let reuseIdentifier = "GenreCell"
-    
+
     private let imageView = UIImageView()
     weak var delegate: GenreCellDelegate?
     private let selectedImageView = UIImageView()
     private var index: Int?
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.addSubviews(imageView, selectedImageView)
         setupImageView()
-        
+
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapCell))
         addGestureRecognizer(tapGesture)
     }
@@ -27,16 +27,16 @@ final class GenreCell: UICollectionViewCell {
     }
 
     private func setupImageView() {
-        imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 8
         selectedImageView.image = R.image.selected_icon()
         selectedImageView.isHidden = true
-        
+
         imageView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-        
+
         selectedImageView.snp.makeConstraints { make in
             make.top.trailing.equalToSuperview().inset(10)
             make.size.equalTo(26)
@@ -45,10 +45,10 @@ final class GenreCell: UICollectionViewCell {
 
     func configure(with genre: GenreModel) {
         imageView.image = genre.image
-        index = genre.index 
+        index = genre.index
         selectedImageView.isHidden = !genre.isSelected
     }
-    
+
     @objc private func didTapCell() {
         guard let index = index else { return }
         let isSelected = !selectedImageView.isHidden

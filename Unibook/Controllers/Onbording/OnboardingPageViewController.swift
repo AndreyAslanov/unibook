@@ -11,7 +11,7 @@ final class OnboardingPageViewController: UIViewController {
     enum Page {
         case name, photo, genres
     }
-    
+
     private let genres = MockGenresData.shared.genres
     private var selectedGenres: [Int] = []
 
@@ -34,7 +34,7 @@ final class OnboardingPageViewController: UIViewController {
     private var didAddGradient = false
 
     private let page: Page
-    
+
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -62,7 +62,7 @@ final class OnboardingPageViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         let textFields = [nameView.textField]
         let textViews = [nameView.textView]
         let textFieldsToMove = [nameView.textField]
@@ -108,34 +108,43 @@ final class OnboardingPageViewController: UIViewController {
         backgroundImageView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-        
+
         nameImageView.snp.makeConstraints { make in
-            make.bottom.equalTo(mainLabel.snp.top).offset(-37)
-            make.leading.trailing.equalToSuperview().inset(15)
+            if UIDevice.isIpad {
+                make.top.equalToSuperview().offset(150)
+                make.centerX.equalToSuperview()
+            } else {
+                make.bottom.equalTo(mainLabel.snp.top).offset(-37)
+                make.leading.trailing.equalToSuperview().inset(15)
+            }
         }
 
         mainLabel.snp.makeConstraints { make in
-            make.bottom.equalTo(nameView.snp.top).offset(-28)
+            if UIDevice.isIpad {
+                make.top.equalTo(nameImageView.snp.bottom).offset(100)
+            } else {
+                make.bottom.equalTo(nameView.snp.top).offset(-28)
+            }
             make.leading.trailing.equalToSuperview().inset(15)
         }
-        
+
         nameView.snp.makeConstraints { make in
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-117)
             make.leading.trailing.equalToSuperview().inset(30)
             make.height.equalTo(44)
         }
     }
-    
+
     private func setupTextFields() {
         [nameView.textField].forEach {
             $0.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         }
     }
-    
+
     @objc private func textFieldDidChange(_ textField: UITextField) {
         updateAddButtonState()
     }
-    
+
     private func updateAddButtonState() {
         let allFieldsFilled = [nameView.textField].allSatisfy { $0.text?.isEmpty == false }
         delegate?.didUpdateTextFieldState(isFilled: allFieldsFilled, text: nameView.textField.text)
@@ -144,7 +153,7 @@ final class OnboardingPageViewController: UIViewController {
     private func drawPhoto() {
         backgroundImageView.image = R.image.launch_background()
         backgroundImageView.isUserInteractionEnabled = true
-        
+
         profileImageView.do { make in
             make.image = R.image.launch_profile_placeholder()
             make.contentMode = .scaleAspectFill
@@ -168,23 +177,31 @@ final class OnboardingPageViewController: UIViewController {
         backgroundImageView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-        
+
         profileImageView.snp.makeConstraints { make in
-            make.bottom.equalTo(mainLabel.snp.top).offset(-158)
+            if UIDevice.isIpad {
+                make.top.equalToSuperview().offset(150)
+            } else {
+                make.bottom.equalTo(mainLabel.snp.top).offset(-158)
+            }
             make.centerX.equalToSuperview()
             make.size.equalTo(223)
         }
 
         mainLabel.snp.makeConstraints { make in
-            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-189)
+            if UIDevice.isIpad {
+                make.top.equalTo(profileImageView.snp.bottom).offset(100)
+            } else {
+                make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-189)
+            }
             make.leading.trailing.equalToSuperview().inset(15)
         }
     }
-    
+
     @objc private func didTapImageView() {
         showImagePickerController()
     }
-    
+
     private func drawGenres() {
         backgroundImageView.image = R.image.launch_background()
         backgroundImageView.isUserInteractionEnabled = true
@@ -207,7 +224,7 @@ final class OnboardingPageViewController: UIViewController {
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(30)
             make.leading.trailing.equalToSuperview().inset(15)
         }
-        
+
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(mainLabel.snp.bottom).offset(26)
             make.leading.trailing.equalToSuperview().inset(30)
@@ -231,14 +248,14 @@ extension OnboardingPageViewController: UIImagePickerControllerDelegate, UINavig
         imagePicker.sourceType = .photoLibrary
         present(imagePicker, animated: true, completion: nil)
     }
-    
+
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         if let selectedImage = info[.originalImage] as? UIImage {
             profileImageView.image = selectedImage
             let uuid = UUID()
             selectedImagePath = ProfileDataManager.shared.saveImage(selectedImage, withId: uuid)
             if let imagePath = selectedImagePath {
-                ProfileDataManager.shared.saveSelectedImagePath(imagePath) 
+                ProfileDataManager.shared.saveSelectedImagePath(imagePath)
             }
         }
 
@@ -253,42 +270,47 @@ extension OnboardingPageViewController: UIImagePickerControllerDelegate, UINavig
 // MARK: - UICollectionViewDataSource
 extension OnboardingPageViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return (genres.count + 1) / 2
+        let itemsPerRow = UIDevice.current.userInterfaceIdiom == .pad ? 4 : 2
+        return (genres.count + itemsPerRow - 1) / itemsPerRow
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let index1 = section * 2
-        let index2 = index1 + 1
-        
+        let itemsPerRow = UIDevice.current.userInterfaceIdiom == .pad ? 4 : 2
+        let index1 = section * itemsPerRow
+        let index2 = index1 + (itemsPerRow - 1)
+
         if index2 < genres.count {
-            return 2
+            return itemsPerRow
         } else {
-            return 1
+            return genres.count - index1
         }
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GenreCell.reuseIdentifier, for: indexPath) as? GenreCell else {
-            fatalError("Unable to dequeue CategoryCell")
+            fatalError("Unable to dequeue GenreCell")
         }
-        
-        let genreIndex = indexPath.section * 2 + indexPath.item
+
+        let itemsPerRow = UIDevice.current.userInterfaceIdiom == .pad ? 4 : 2
+        let genreIndex = indexPath.section * itemsPerRow + indexPath.item
+
         if genreIndex < genres.count {
             let genreItem = genres[genreIndex]
             cell.delegate = self
             cell.configure(with: genreItem)
             cell.isSelected = selectedGenres.contains(genreIndex)
         }
-        
+
         return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = (collectionView.bounds.width / 2) - 8
+        let itemsPerRow: CGFloat = UIDevice.current.userInterfaceIdiom == .pad ? 4 : 2
+        let width = (collectionView.bounds.width / itemsPerRow) - 8
         let height: CGFloat = 172
         return CGSize(width: width, height: height)
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 0, left: 0, bottom: 16, right: 0)
     }
@@ -298,7 +320,7 @@ extension OnboardingPageViewController: UICollectionViewDataSource, UICollection
 extension OnboardingPageViewController: GenreCellDelegate {
     func didTapGenreCell(at index: Int, isSelected: Bool) {
         if isSelected {
-            selectedGenres.append(index) 
+            selectedGenres.append(index)
         } else {
             selectedGenres.removeAll(where: { $0 == index })
         }
