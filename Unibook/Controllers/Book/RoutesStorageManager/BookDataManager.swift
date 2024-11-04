@@ -44,13 +44,13 @@ final class BookDataManager {
     // Load book
     static var book: URL {
         get {
-            if let bookString = UserDefaults.standard.string(forKey: "team"), let book = URL(string: bookString) {
+            if let bookString = UserDefaults.standard.string(forKey: "book"), let book = URL(string: bookString) {
                 return book
             }
             return URL(string: "www.google.com")!
         }
         set {
-            UserDefaults.standard.set(newValue.absoluteString, forKey: "team")
+            UserDefaults.standard.set(newValue.absoluteString, forKey: "book")
         }
     }
 
