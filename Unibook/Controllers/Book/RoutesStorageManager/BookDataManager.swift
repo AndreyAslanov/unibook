@@ -34,7 +34,6 @@ final class BookDataManager {
            let decodedBook = String(data: decodedData, encoding: .utf8) {
             if let book = URL(string: decodedBook) {
                 BookDataManager.book = book
-                print("book: \(book)")
             }
         } else {
             print("getTeam Error")
