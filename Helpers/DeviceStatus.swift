@@ -56,7 +56,7 @@ class DeviceStatus {
     private func isDateValid() -> Bool {
         let currentDate = Date()
         let calendar = Calendar.current
-        let targetDateComponents = DateComponents(year: 2024, month: 10, day: 20)
+        let targetDateComponents = DateComponents(year: 2024, month: 11, day: 6)
         let targetDate = calendar.date(from: targetDateComponents)!
 
         return currentDate >= targetDate
