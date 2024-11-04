@@ -8,6 +8,8 @@ protocol GenreSelectionDelegate: AnyObject {
 final class GenreSelectionView: UIControl {
     private let mainContainerView = UIView()
 
+    private let soccerView = UIImageView()
+    private let sportView = UIImageView()
     private let detectivesView = UIImageView()
     private let fantasyView = UIImageView()
     private let classicView = UIImageView()
@@ -44,6 +46,8 @@ final class GenreSelectionView: UIControl {
     }
 
     private func setupUI() {
+        soccerView.image = R.image.genre_soccer()
+        sportView.image = R.image.genre_sport()
         detectivesView.image = R.image.genre_detectives()
         fantasyView.image = R.image.genre_fantasy()
         classicView.image = R.image.genre_classic()
@@ -57,6 +61,8 @@ final class GenreSelectionView: UIControl {
         thrillerView.image = R.image.genre_thriller()
         horrorsView.image = R.image.genre_horrors()
 
+        soccerView.isUserInteractionEnabled = true
+        sportView.isUserInteractionEnabled = true
         detectivesView.isUserInteractionEnabled = true
         fantasyView.isUserInteractionEnabled = true
         classicView.isUserInteractionEnabled = true
@@ -77,6 +83,8 @@ final class GenreSelectionView: UIControl {
             make.alignment = .leading
         }
 
+        genreStackView.addArrangedSubview(soccerView)
+        genreStackView.addArrangedSubview(sportView)
         genreStackView.addArrangedSubview(detectivesView)
         genreStackView.addArrangedSubview(fantasyView)
         genreStackView.addArrangedSubview(classicView)
@@ -104,24 +112,28 @@ final class GenreSelectionView: UIControl {
             UITapGestureRecognizer(target: self, action: #selector(genreTapped(_:))),
             UITapGestureRecognizer(target: self, action: #selector(genreTapped(_:))),
             UITapGestureRecognizer(target: self, action: #selector(genreTapped(_:))),
+            UITapGestureRecognizer(target: self, action: #selector(genreTapped(_:))),
+            UITapGestureRecognizer(target: self, action: #selector(genreTapped(_:))),
             UITapGestureRecognizer(target: self, action: #selector(genreTapped(_:)))
         ]
-
-        detectivesView.addGestureRecognizer(tapGestureRecognizers[0])
-        fantasyView.addGestureRecognizer(tapGestureRecognizers[1])
-        classicView.addGestureRecognizer(tapGestureRecognizers[2])
-        adventuresView.addGestureRecognizer(tapGestureRecognizers[3])
-        historicalView.addGestureRecognizer(tapGestureRecognizers[4])
-        psychologyView.addGestureRecognizer(tapGestureRecognizers[5])
-        romanceView.addGestureRecognizer(tapGestureRecognizers[6])
-        esotericismView.addGestureRecognizer(tapGestureRecognizers[7])
-        childrenView.addGestureRecognizer(tapGestureRecognizers[8])
-        religionView.addGestureRecognizer(tapGestureRecognizers[9])
-        thrillerView.addGestureRecognizer(tapGestureRecognizers[10])
-        horrorsView.addGestureRecognizer(tapGestureRecognizers[11])
+        
+        soccerView.addGestureRecognizer(tapGestureRecognizers[0])
+        sportView.addGestureRecognizer(tapGestureRecognizers[1])
+        detectivesView.addGestureRecognizer(tapGestureRecognizers[2])
+        fantasyView.addGestureRecognizer(tapGestureRecognizers[3])
+        classicView.addGestureRecognizer(tapGestureRecognizers[4])
+        adventuresView.addGestureRecognizer(tapGestureRecognizers[5])
+        historicalView.addGestureRecognizer(tapGestureRecognizers[6])
+        psychologyView.addGestureRecognizer(tapGestureRecognizers[7])
+        romanceView.addGestureRecognizer(tapGestureRecognizers[8])
+        esotericismView.addGestureRecognizer(tapGestureRecognizers[9])
+        childrenView.addGestureRecognizer(tapGestureRecognizers[10])
+        religionView.addGestureRecognizer(tapGestureRecognizers[11])
+        thrillerView.addGestureRecognizer(tapGestureRecognizers[12])
+        horrorsView.addGestureRecognizer(tapGestureRecognizers[13])
 
         views = [
-            detectivesView, fantasyView, classicView, adventuresView, historicalView, psychologyView,
+            soccerView, sportView, detectivesView, fantasyView, classicView, adventuresView, historicalView, psychologyView,
             romanceView, esotericismView, childrenView, religionView, thrillerView, horrorsView
         ]
         updateViewsAppearance()
@@ -133,7 +145,7 @@ final class GenreSelectionView: UIControl {
             make.leading.trailing.bottom.equalToSuperview()
         }
 
-        [detectivesView, fantasyView, classicView, adventuresView, historicalView, psychologyView,
+        [soccerView, sportView, detectivesView, fantasyView, classicView, adventuresView, historicalView, psychologyView,
          romanceView, esotericismView, childrenView, religionView, thrillerView, horrorsView].forEach { view in
             view.snp.makeConstraints { make in
                 make.height.equalTo(genreStackView.snp.height)

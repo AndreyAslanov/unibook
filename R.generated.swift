@@ -15,6 +15,7 @@ struct _R {
   var color: color { .init(bundle: bundle) }
   var image: image { .init(bundle: bundle) }
   var info: info { .init(bundle: bundle) }
+  var file: file { .init(bundle: bundle) }
 
   func string(bundle: Foundation.Bundle) -> string {
     .init(bundle: bundle, preferredLanguages: nil, locale: nil)
@@ -32,6 +33,9 @@ struct _R {
     .init(bundle: bundle)
   }
   func info(bundle: Foundation.Bundle) -> info {
+    .init(bundle: bundle)
+  }
+  func file(bundle: Foundation.Bundle) -> file {
     .init(bundle: bundle)
   }
   func validate() throws {
@@ -363,7 +367,7 @@ struct _R {
     var accentColor: RswiftResources.ColorResource { .init(name: "AccentColor", path: [], bundle: bundle) }
   }
 
-  /// This `_R.image` struct is generated, and contains static references to 30 images.
+  /// This `_R.image` struct is generated, and contains static references to 32 images.
   struct image {
     let bundle: Foundation.Bundle
 
@@ -408,6 +412,12 @@ struct _R {
 
     /// Image `genre_romance`.
     var genre_romance: RswiftResources.ImageResource { .init(name: "genre_romance", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `genre_soccer`.
+    var genre_soccer: RswiftResources.ImageResource { .init(name: "genre_soccer", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `genre_sport`.
+    var genre_sport: RswiftResources.ImageResource { .init(name: "genre_sport", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
 
     /// Image `genre_thriller`.
     var genre_thriller: RswiftResources.ImageResource { .init(name: "genre_thriller", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
@@ -504,5 +514,13 @@ struct _R {
         }
       }
     }
+  }
+
+  /// This `_R.file` struct is generated, and contains static references to 1 resource files.
+  struct file {
+    let bundle: Foundation.Bundle
+
+    /// Resource file `Book.plist`.
+    var bookPlist: RswiftResources.FileResource { .init(name: "Book", pathExtension: "plist", bundle: bundle, locale: LocaleReference.none) }
   }
 }

@@ -9,8 +9,10 @@ final class LaunchScreenViewController: UIViewController {
     private let mainImageView = UIImageView()
     private let loadingIndicatorView = UIView()
     private let maskLayer = CALayer()
+    var isBook: Bool
 
-    init() {
+    init(isBook: Bool) {
+        self.isBook = isBook
         super.init(nibName: nil, bundle: nil)
     }
 

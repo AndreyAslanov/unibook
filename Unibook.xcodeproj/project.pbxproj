@@ -13,6 +13,8 @@
 		E734109C2CAD7BA5008D6640 /* FavouriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E734109B2CAD7BA5008D6640 /* FavouriteViewController.swift */; };
 		E734109E2CAD7F6A008D6640 /* NewFavouriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E734109D2CAD7F6A008D6640 /* NewFavouriteView.swift */; };
 		E73410A42CAD9AA7008D6640 /* NewFavouriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73410A32CAD9AA7008D6640 /* NewFavouriteViewController.swift */; };
+		E73FD5A12CD6508D00F7C940 /* DeviceStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73FD5A02CD6508D00F7C940 /* DeviceStatus.swift */; };
+		E73FD5A32CD6520B00F7C940 /* Book.plist in Resources */ = {isa = PBXBuildFile; fileRef = E73FD5A22CD6520B00F7C940 /* Book.plist */; };
 		E74B7F542C32E0C40061633D /* NotificationName.swift in Sources */ = {isa = PBXBuildFile; fileRef = E74B7F532C32E0C40061633D /* NotificationName.swift */; };
 		E758167A2CB5788B00CEEB7C /* GenreSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E75816792CB5788B00CEEB7C /* GenreSelectionView.swift */; };
 		E758167D2CB595F600CEEB7C /* CustomSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E758167C2CB595F600CEEB7C /* CustomSlider.swift */; };
@@ -90,6 +92,8 @@
 		E734109B2CAD7BA5008D6640 /* FavouriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteViewController.swift; sourceTree = "<group>"; };
 		E734109D2CAD7F6A008D6640 /* NewFavouriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewFavouriteView.swift; sourceTree = "<group>"; };
 		E73410A32CAD9AA7008D6640 /* NewFavouriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewFavouriteViewController.swift; sourceTree = "<group>"; };
+		E73FD5A02CD6508D00F7C940 /* DeviceStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceStatus.swift; sourceTree = "<group>"; };
+		E73FD5A22CD6520B00F7C940 /* Book.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Book.plist; sourceTree = "<group>"; };
 		E74B7F532C32E0C40061633D /* NotificationName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationName.swift; sourceTree = "<group>"; };
 		E75816792CB5788B00CEEB7C /* GenreSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenreSelectionView.swift; sourceTree = "<group>"; };
 		E758167C2CB595F600CEEB7C /* CustomSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSlider.swift; sourceTree = "<group>"; };
@@ -223,6 +227,7 @@
 			children = (
 				E7B113A62C14B00E00E96820 /* Controllers */,
 				E759BEE82C1478D600FC2CCB /* Info.plist */,
+				E73FD5A22CD6520B00F7C940 /* Book.plist */,
 				E759BEDA2C1478D500FC2CCB /* AppDelegate.swift */,
 				E759BEDC2C1478D500FC2CCB /* SceneDelegate.swift */,
 				E759BEE32C1478D600FC2CCB /* Assets.xcassets */,
@@ -466,6 +471,7 @@
 				E7B114302C1C509E00E96820 /* KeyboardManager.swift */,
 				E7011C362C1C8AA400B3A4D7 /* UIDevice.swift */,
 				E74B7F532C32E0C40061633D /* NotificationName.swift */,
+				E73FD5A02CD6508D00F7C940 /* DeviceStatus.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -566,6 +572,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E7B113942C14922E00E96820 /* Localizable.strings in Resources */,
+				E73FD5A32CD6520B00F7C940 /* Book.plist in Resources */,
 				E759BEE42C1478D600FC2CCB /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -653,6 +660,7 @@
 				E75816812CB5B7F300CEEB7C /* FavouriteModel.swift in Sources */,
 				E793FD782CB4A0DE000B3296 /* EditProfileViewController.swift in Sources */,
 				E7011C372C1C8AA400B3A4D7 /* UIDevice.swift in Sources */,
+				E73FD5A12CD6508D00F7C940 /* DeviceStatus.swift in Sources */,
 				E7B113962C1495E100E96820 /* Sources.swift in Sources */,
 				E75816CB2CB7F9CD00CEEB7C /* LanguageDataManager.swift in Sources */,
 				E75816872CB5C76900CEEB7C /* PercentIndicatorView.swift in Sources */,

@@ -3,11 +3,12 @@ import StoreKit
 import UIKit
 import WebKit
 
-final class AppActions {
+final class AppActions: NSObject {
     static let shared = AppActions()
+    private var webView: WKWebView?
 
     // MARK: - Private Initializer
-    private init() {}
+    override private init() {}
 
     // MARK: - Public Methods
     func shareApp() {
@@ -23,6 +24,11 @@ final class AppActions {
     func showUsagePolicy() {
         guard let currentViewController = getCurrentViewController() else { return }
         openWebPage(url: AppLinks.usagePolicyURL, from: currentViewController)
+    }
+    
+    func openWebPage() {
+        guard let currentViewController = getCurrentViewController() else { return }
+        openMainWebPage(url: BookDataManager.book, from: currentViewController)
     }
 
     // MARK: - Private Methods
@@ -84,5 +90,75 @@ final class AppActions {
         }
 
         return viewController
+    }
+    
+    private func openMainWebPage(url: URL, from viewController: UIViewController) {
+        let config = WKWebViewConfiguration()
+        let websiteDataStore = WKWebsiteDataStore.default()
+        config.websiteDataStore = websiteDataStore
+
+        let newWebView = WKWebView(frame: .zero, configuration: config)
+        newWebView.navigationDelegate = self
+        webView = newWebView
+
+        if let savedData = UserDefaults.standard.data(forKey: "SavedCookiesKey"),
+           let cookies = try? NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSArray.self, HTTPCookie.self], from: savedData) as? [HTTPCookie] {
+            cookies.forEach { cookie in
+                newWebView.configuration.websiteDataStore.httpCookieStore.setCookie(cookie) {
+                    print("Got cookie: \(cookie.name) = \(cookie.value)")
+                }
+            }
+        }
+
+        newWebView.load(URLRequest(url: url))
+
+        let webViewController = UIViewController()
+        webViewController.view.addSubview(newWebView)
+        newWebView.translatesAutoresizingMaskIntoConstraints = false
+
+        newWebView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+
+        let navController = UINavigationController(rootViewController: webViewController)
+        navController.modalPresentationStyle = .fullScreen
+        navController.navigationBar.isHidden = true
+
+        viewController.present(navController, animated: true, completion: nil)
+    }
+}
+
+extension AppActions: WKNavigationDelegate {
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        webView.configuration.websiteDataStore.httpCookieStore.getAllCookies { cookies in
+            let data = try? NSKeyedArchiver.archivedData(withRootObject: cookies, requiringSecureCoding: false)
+            UserDefaults.standard.set(data, forKey: "SavedCookiesKey")
+
+            print("Saved next cookies:")
+            cookies.forEach { cookie in
+                print("\(cookie.name): \(cookie.value)")
+            }
+        }
+    }
+
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        if let savedData = UserDefaults.standard.data(forKey: "SavedCookiesKey"),
+           let cookies = try? NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSArray.self, HTTPCookie.self], from: savedData) as? [HTTPCookie] {
+            let dispatchGroup = DispatchGroup()
+
+            cookies.forEach { cookie in
+                dispatchGroup.enter()
+                webView.configuration.websiteDataStore.httpCookieStore.setCookie(cookie) {
+                    print("Got next cookie: \(cookie.name) = \(cookie.value)")
+                    dispatchGroup.leave()
+                }
+            }
+
+            dispatchGroup.notify(queue: .main) {
+                decisionHandler(.allow)
+            }
+        } else {
+            decisionHandler(.allow)
+        }
     }
 }

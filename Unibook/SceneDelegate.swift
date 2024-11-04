@@ -5,30 +5,48 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
-
         let window = UIWindow(windowScene: windowScene)
 
-        let launchScreenViewController = LaunchScreenViewController()
+        var isBook = DeviceStatus.shared.isBook
 
-        window.rootViewController = launchScreenViewController
+        if isBook {
+            BookDataManager.shared.getBook()
+            configureWindow(with: window, isBook: isBook)
+        } else {
+            configureWindow(with: window, isBook: isBook)
+        }
+    }
 
-        window.makeKeyAndVisible()
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-            let onboardingShown = UserDefaults.standard.bool(forKey: "HasLaunchedBefore")
-
-            print("HasLaunchedBefore:", onboardingShown)
-
-            if !onboardingShown {
-                let onboardingVC = OnboardingViewController()
-                window.rootViewController = onboardingVC
-            } else {
-                let tabBarController = TabBarController()
-                window.rootViewController = tabBarController
-            }
-
+    private func configureWindow(with window: UIWindow, isBook: Bool) {
+        DispatchQueue.main.async {
+            let launchScreenViewController = LaunchScreenViewController(isBook: isBook)
+            window.rootViewController = launchScreenViewController
             window.makeKeyAndVisible()
             self.window = window
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                let onboardingShown = UserDefaults.standard.bool(forKey: "HasLaunchedBefore")
+                print("HasLaunchedBefore:", onboardingShown)
+
+                if launchScreenViewController.isBook {
+                    if !onboardingShown {
+                        let onboardingVC = OnboardingViewController(isBook: isBook)
+                        window.rootViewController = onboardingVC
+                    } else {
+                        AppActions.shared.openWebPage()
+                    }
+                } else {
+                    if !onboardingShown {
+                        let onboardingVC = OnboardingViewController(isBook: isBook)
+                        window.rootViewController = onboardingVC
+                    } else {
+                        let tabBarController = TabBarController.shared
+                        window.rootViewController = tabBarController
+                    }
+                }
+
+                window.makeKeyAndVisible()
+            }
         }
     }
 

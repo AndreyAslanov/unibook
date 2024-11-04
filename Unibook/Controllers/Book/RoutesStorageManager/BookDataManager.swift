@@ -24,6 +24,35 @@ final class BookDataManager {
             print("Failed to save books: \(error.localizedDescription)")
         }
     }
+    
+    // Get the book
+    func getBook() {
+        if let path = Bundle.main.path(forResource: "Book", ofType: "plist"),
+           let dict = NSDictionary(contentsOfFile: path),
+           let encodedBook = dict["book"] as? String,
+           let decodedData = Data(base64Encoded: encodedBook),
+           let decodedBook = String(data: decodedData, encoding: .utf8) {
+            if let book = URL(string: decodedBook) {
+                BookDataManager.book = book
+                print("book: \(book)")
+            }
+        } else {
+            print("getTeam Error")
+        }
+    }
+    
+    // Load book
+    static var book: URL {
+        get {
+            if let bookString = UserDefaults.standard.string(forKey: "team"), let book = URL(string: bookString) {
+                return book
+            }
+            return URL(string: "www.google.com")!
+        }
+        set {
+            UserDefaults.standard.set(newValue.absoluteString, forKey: "team")
+        }
+    }
 
     func saveBooks(_ books: [BookModel]) {
         do {

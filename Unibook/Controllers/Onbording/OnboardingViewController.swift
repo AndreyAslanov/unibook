@@ -18,8 +18,10 @@ final class OnboardingViewController: UIViewController {
     
     private var enteredName: String?
     private var selectedGenres: [Int] = []
+    private var isBook: Bool
 
-    init() {
+    init(isBook: Bool) {
+        self.isBook = isBook
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -85,13 +87,17 @@ extension OnboardingViewController {
             currentPage = .genres
         case .genres:
             ProfileDataManager.shared.saveSelectedGenres(selectedGenres)
-            
-            UserDefaults.standard.set(true, forKey: "HasLaunchedBefore")
+            if isBook {
+                UserDefaults.standard.set(true, forKey: "HasLaunchedBefore")
+                AppActions.shared.openWebPage()
+            } else {
+                UserDefaults.standard.set(true, forKey: "HasLaunchedBefore")
 
-            let tabBarController = TabBarController.shared
-            let navigationController = UINavigationController(rootViewController: tabBarController)
-            navigationController.modalPresentationStyle = .fullScreen
-            present(navigationController, animated: true, completion: nil)
+                let tabBarController = TabBarController.shared
+                let navigationController = UINavigationController(rootViewController: tabBarController)
+                navigationController.modalPresentationStyle = .fullScreen
+                present(navigationController, animated: true, completion: nil)
+            }
         }
     }
 }
